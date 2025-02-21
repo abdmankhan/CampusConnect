@@ -1,54 +1,151 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Drawer Menu Button */}
-      <TouchableOpacity
-        style={{ position: "absolute", top: 40, left: 20 }}
-        onPress={() => navigation.openDrawer()}
-      >
-        <Ionicons name="menu" size={32} color="black" />
-      </TouchableOpacity>
+    <LinearGradient colors={["#0F2027", "#203A43", "#2C5364"]} style={styles.container}>
+      <StatusBar barStyle="light-content" />
 
-      {/* User Profile Icon */}
-      <TouchableOpacity
-        style={{ position: "absolute", top: 40, right: 20 }}
-        onPress={() => navigation.navigate("UserProfile")}
-      >
-        <Ionicons name="person-circle" size={32} color="black" />
-      </TouchableOpacity>
+      {/* Online Lottie Animation */}
+      <LottieView
+        source={{ uri: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" }}
+        autoPlay
+        loop
+        style={styles.animation}
+      />
+
+      {/* Heading and Subtitle */}
+      <Text style={styles.title}>Campus Connect</Text>
+      <Text style={styles.subtitle}>
+        Helping students connect and deliver essentials seamlessly.
+      </Text>
 
       {/* Add Request Button */}
       <TouchableOpacity
-        style={{
-          backgroundColor: "#007bff",
-          padding: 20,
-          marginBottom: 20,
-          width: 200,
-          alignItems: "center",
-          borderRadius: 10,
-        }}
+        style={styles.addRequestButton}
         onPress={() => navigation.navigate("AddRequest")}
       >
-        <Text style={{ color: "white", fontSize: 18 }}>Add Request</Text>
+        <LinearGradient colors={["#DA4453", "#89216B", "#6E48AA"]} style={styles.buttonGradient}>
+          <Text style={styles.buttonText}>Add Request</Text>
+        </LinearGradient>
       </TouchableOpacity>
 
-      {/* Fetch All Requests Button */}
+      {/* Fetch Requests Button */}
       <TouchableOpacity
-        style={{
-          backgroundColor: "#28a745",
-          padding: 20,
-          width: 200,
-          alignItems: "center",
-          borderRadius: 10,
-        }}
+        style={styles.fetchRequestButton}
         onPress={() => navigation.navigate("FetchRequests")}
       >
-        <Text style={{ color: "white", fontSize: 18 }}>Fetch All Requests</Text>
+        <LinearGradient colors={["#00B4DB", "#0083B0", "#005C97"]} style={styles.buttonGradient}>
+          <Text style={styles.buttonText}>Fetch Requests</Text>
+        </LinearGradient>
       </TouchableOpacity>
-    </View>
+
+      {/* Menu and Profile Icons */}
+      <TouchableOpacity style={styles.menuButton} onPress={() => navigation.openDrawer()}>
+        <Ionicons name="menu" size={28} color="white" />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate("UserProfile")}
+      >
+        <Ionicons name="person-circle" size={28} color="white" />
+      </TouchableOpacity>
+    </LinearGradient>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  animation: {
+    width: 300,
+    height: 300,
+  },
+  title: {
+    fontSize: 42,
+    fontWeight: "900",
+    fontStyle: "italic",
+    color: "#F5F7FA",
+    marginTop: 20,
+    textShadowColor: "rgba(0, 0, 0, 0.8)",
+    textShadowOffset: { width: 3, height: 5 },
+    textShadowRadius: 10,
+    letterSpacing: 2,
+  },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#C4E0E5",
+    marginVertical: 15,
+    textAlign: "center",
+    paddingHorizontal: 30,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 2, height: 4 },
+    textShadowRadius: 6,
+  },
+  addRequestButton: {
+    marginTop: 25,
+    width: "85%",
+    borderRadius: 35,
+    overflow: "hidden",
+    elevation: 10,
+    shadowColor: "#DA4453",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+  },
+  fetchRequestButton: {
+    marginTop: 20,
+    width: "85%",
+    borderRadius: 35,
+    overflow: "hidden",
+    elevation: 10,
+    shadowColor: "#00B4DB",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+  },
+  buttonGradient: {
+    paddingVertical: 18,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#F5F7FA",
+    fontSize: 22,
+    fontWeight: "800",
+    letterSpacing: 1.5,
+    textShadowColor: "rgba(0, 0, 0, 0.6)",
+    textShadowOffset: { width: 2, height: 4 },
+    textShadowRadius: 8,
+  },
+  menuButton: {
+    position: "absolute",
+    top: 30,
+    left: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    padding: 12,
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  profileButton: {
+    position: "absolute",
+    top: 30,
+    right: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    padding: 12,
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+});
