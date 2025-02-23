@@ -3,6 +3,10 @@
 # dependencies
 node_modules/
 
+# Ignore environment variables
+.env
+backend/.env
+
 # Expo
 .expo/
 dist/
@@ -34,3 +38,5 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
