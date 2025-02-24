@@ -20,17 +20,24 @@ export default function UserProfileScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("userToken");
       if (!token) {
-        navigation.navigate("Login");
+        navigation.replace("Login"); // Replace instead of navigate
         return;
       }
-      const response = await axios.get("http://192.168.137.1:5000/api/auth/getProfile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+
+      const response = await axios.get(
+        "https://campus-connect-five-vert.vercel.app/api/auth/getProfile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       console.log(response.data);
-      
       setProfile(response.data);
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Profile Fetch Error:",
+        error.response?.data || error.message
+      );
       Alert.alert("Error", "Failed to fetch profile");
     } finally {
       setLoading(false);
@@ -51,32 +58,34 @@ export default function UserProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>User Profile</Text>
       {profile && (
-        <View style={styles.profileContainer}>
-          <Text style={styles.info}>Name: {profile.name}</Text>
-          <Text style={styles.info}>Email: {profile.email}</Text>
-          <Text style={styles.info}>Phone: {profile.phone || "N/A"}</Text>
-        </View>
+        <>
+          <Text style={styles.header}>User Profile</Text>
+          <View style={styles.profileContainer}>
+            <Text style={styles.info}>Name: {profile.name}</Text>
+            <Text style={styles.info}>Email: {profile.email}</Text>
+            <Text style={styles.info}>Phone: {profile.phone || "N/A"}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => navigation.navigate("UpdateProfile", { profile })}
+            >
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.logoutButton}
+              onPress={async () => {
+                await AsyncStorage.removeItem("userToken");
+                logout();
+                navigation.navigate("Login");
+              }}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        </>
       )}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => navigation.navigate("UpdateProfile", { profile })}
-        >
-          <Text style={styles.buttonText}>Edit Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={async () => {
-            await AsyncStorage.removeItem("userToken");
-            logout();
-            navigation.navigate("Login");
-          }}
-        >
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

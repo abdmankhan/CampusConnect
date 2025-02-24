@@ -17,7 +17,7 @@ export default function RegisterScreen({ navigation }) {
   const handleRegister = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.137.1:5000/api/auth/signup",
+        "https://campus-connect-five-vert.vercel.app/api/auth/signup",
         {
           name,
           email,

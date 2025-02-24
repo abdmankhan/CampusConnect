@@ -23,7 +23,7 @@ export default function UpdateProfileScreen({ route, navigation }) {
       setLoading(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.put(
-        "http://192.168.137.1:5000/api/auth/getProfile",
+        "https://campus-connect-five-vert.vercel.app/api/auth/getProfile",
         { name, email, phone },
         { headers: { Authorization: `Bearer ${token}` } }
       );
